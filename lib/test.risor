@@ -1,0 +1,60 @@
+import color
+
+__fatal := false
+
+_red := color.color(color.fg_red, color.bold)
+_green := color.color(color.fg_green, color.bold)
+
+failed_is_fatal := func(b) {
+  __fatal = b
+}
+
+func exit_if_fatal() {
+  if __fatal {
+    os.exit(1)
+  }
+}
+
+func print_ok(m) {
+  print(_green.sprintf('%s:', "  ok"), m)
+}
+
+func print_fail(m) {
+  print(_red.sprintf('%s:', "fail"), m)
+  exit_if_fatal()
+}
+
+func is_true(m, cond){
+  if !cond {
+    print_fail(m)
+  } else {
+    print_ok(m)
+  }
+}
+
+func raises(m, fn, err) {
+  happened := false
+  try(fn, func(e) {
+    happened = true
+    if e != err{
+      print_fail(m)
+    } else {
+      print_ok(m)
+    }
+  })
+  if !happened {
+    print_fail('{m} (no error raised)')
+  }
+}
+
+func nothing_raised(m, fn) {
+  happened := nil
+  try(fn, func(e) {
+    happened = e
+  })
+  if happened {
+    print_fail('{m} (error raised {happened})')
+  } else {
+    print_ok(m)
+  }
+}

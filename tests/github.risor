@@ -1,0 +1,34 @@
+import os
+import test
+import github
+
+const GITHB_TOKEN  = os.getenv("GITHUB_TOKEN")
+
+test.raises("github.me() raises when GITHUB_TOKEN is not set", func() {
+  github.me()
+}, errors.new("GITHUB_TOKEN is required"))
+
+test.nothing_raised("does not raise when GITHUB_TOKEN is set", func() {
+  github.set_token(GITHB_TOKEN)
+  github.me()
+})
+
+test.nothing_raised("returns the current user", func() {
+  github.set_token(GITHB_TOKEN)
+  user := github.me()
+  test.assert(user.login == "foolano19")
+})
+
+test.is_true("github/aroma is starred", func() {
+  s := github.starred()
+  for _, star := range s {
+    if star.repo.full_name == "github/aroma" {
+      return true
+    }
+  }
+}() == true )
+
+test.is_true("foolano19/private stargazers == 1", func() {
+  s := github.repo_stargazers("foolano19/private")
+  return len(s) == 1
+}() == true )

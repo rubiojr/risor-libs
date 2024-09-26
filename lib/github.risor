@@ -1,0 +1,84 @@
+import os
+import base64
+
+const __base_url = "https://api.github.com"
+
+__token := ""
+func set_token(t) {
+  __token = t
+}
+
+func token() {
+  if __token == "" {
+    error("GITHUB_TOKEN is required")
+  }
+
+  __token
+}
+
+base_headers := func(){
+  t := token()
+  return {
+    Authorization: 'Bearer {t}',
+    "X-GitHub-Api-Version": "2022-11-28",
+  }
+}
+
+func get_with_headers(path, h) {
+  url := __base_url + path
+  fetch(url, {
+    headers: h
+  })
+}
+
+func get(path) {
+  get_with_headers(path, base_headers())
+}
+
+//
+// Users (https://docs.github.com/en/rest/users/users)
+//
+
+func me() {
+  get("/user").json()
+}
+
+//
+// Search (https://docs.github.com/en/rest/search/search)
+//
+
+func search_issues(q) {
+  h := base_headers()
+  bq := encode(q, "urlquery")
+  h['Accept'] = 'application/vnd.github.text-match+json'
+  get_with_headers('/search/issues?q={bq}', h).json()
+}
+
+// Repoitories (https://docs.github.com/en/rest/repos/repos)
+//
+
+func user_repos(user) {
+  get('/users/{user}/repos').json()
+}
+
+//
+// Starring (https://docs.github.com/en/rest/activity/starring?apiVersion=2022-11-28)
+//
+
+func repo_stargazers(nwo) {
+  h := base_headers()
+  h['Accept'] = 'application/vnd.github.star+json'
+  get_with_headers('/repos/{nwo}/stargazers', h).json()
+}
+
+func starred() {
+  h := base_headers()
+  h['Accept'] = 'application/vnd.github.star+json'
+  get_with_headers('/user/starred', h).json()
+}
+
+func user_starred(user) {
+  h := base_headers
+  h['Accept'] = 'application/vnd.github.star+json'
+  get_with_headers('/users/{user}/starred', h).json()
+}
