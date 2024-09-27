@@ -1,2 +1,3 @@
 #!/bin/sh
-risor --modules lib/ tests/github.risor
+export RISOR_MODULES=lib/
+risor tests/github.risor
