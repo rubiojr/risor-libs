@@ -1,0 +1,27 @@
+import test
+
+test.failed_raises()
+
+test.stdout_equals("output is bar", "echo bar", "bar\n")
+
+test.equals("foo == foo", "foo", "foo")
+test.equals("comparing integers works", 1, 1)
+test.raises("foo == bar should raise", func() {
+  test.equals("foo == bar", "foo", "bar")
+}, test.raised_error)
+
+
+test.nothing_raised("no-op should not raise", func() {
+  ""
+})
+test.raises("nothing_raised fails when test raises", func() {
+  test.nothing_raised("", func() {
+    error("foo")
+  })
+}, test.raised_error)
+
+test.is_true("is_true should not fail with true", true)
+test.is_true("is_true should not fail when expresion returns true", "foo" == "foo")
+test.raises("is_true with false should false", func() {
+  test.is_true("false is true", false)
+}, test.raised_error)
