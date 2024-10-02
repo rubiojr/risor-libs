@@ -1,3 +1,17 @@
 #!/bin/sh
 export RISOR_MODULES=lib/
+
+single_test="$1"
+if [ -n "$single_test" ]; then
+    echo "*** Testing $single_test.risor..."
+    risor "tests/$single_test.risor"
+    exit
+fi
+
+echo "*** Testing github.risor..."
 risor tests/github.risor
+echo
+
+echo "*** Testing test.risor..."
+risor tests/test.risor
+echo
