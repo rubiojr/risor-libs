@@ -1,0 +1,45 @@
+name: Run tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [ '1.22.x' ]
+
+    steps:
+      - uses: actions/checkout@v4
+      #- uses: applejag/setup-risor@v0
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - uses: actions/checkout@v4
+        with:
+          repository: 'risor-io/risor'
+          ref: 'd3d503b85ba64d155606b61dbc25b23529a785fa'
+          path: 'risor'
+
+      - name: Install risor
+        run: cd risor/cmd/risor && go install .
+
+      - name: Run tests
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: ./script/test
