@@ -2,19 +2,20 @@ import os
 import test
 import github
 
-const GITHB_TOKEN  = os.getenv("GITHUB_TOKEN")
+
+const GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
 test.raises("github.me() raises when GITHUB_TOKEN is not set", func() {
   github.me()
 }, errors.new("GITHUB_TOKEN is required"))
 
 test.nothing_raised("does not raise when GITHUB_TOKEN is set", func() {
-  github.set_token(GITHB_TOKEN)
+  github.set_token(GITHUB_TOKEN)
   github.me()
 })
 
 test.nothing_raised("returns the current user", func() {
-  github.set_token(GITHB_TOKEN)
+  github.set_token(GITHUB_TOKEN)
   user := github.me()
   test.assert(user.login == "foolano19")
 })
