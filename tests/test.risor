@@ -25,3 +25,8 @@ test.is_true("is_true should not fail when expresion returns true", "foo" == "fo
 test.raises("is_true with false should false", func() {
   test.is_true("false is true", false)
 }, test.raised_error)
+
+test.stdout_matches("echo foo matches foo", "echo foo", "^foo.*")
+test.raises("is_true with false should false", func() {
+  test.stdout_matches("echo foo does not match bar", "echo foo", "bar")
+}, test.raised_error)

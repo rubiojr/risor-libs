@@ -1,8 +1,9 @@
 import color
 import exec
+import regexp
 
 __fatal := false
-__raises := true
+__raises := false
 
 _red := color.color(color.fg_red, color.bold)
 _green := color.color(color.fg_green, color.bold)
@@ -14,6 +15,9 @@ failed_is_fatal := func(b) {
 _last_error := nil
 failed_raises := func() {
   __raises = true
+}
+failed_does_not_raise := func() {
+  __raises = false
 }
 
 raised_error := errors.new("error raised")
@@ -120,5 +124,25 @@ func stdout_equals(desc, cmd, expected) {
     print_fail(desc + ' (expected: {expected}, got: {out})')
   } else {
     print_ok(desc)
+  }
+}
+
+// Assert that cmd output matches a regular expression.
+//
+// desc: the test description
+// cmd: the command to run
+// reg: the regular expression to match
+func stdout_matches(desc, cmd, reg) {
+  tokens := cmd.split(" ")
+  bin := tokens[0]
+  args := []
+  if len(tokens) > 1 {
+    args.extend(tokens[1:])
+  }
+  out := exec(bin, args).stdout
+  if regexp.match(reg, out) {
+    print_ok(desc)
+  } else {
+    print_fail(desc + '(output {out} does not match {reg})')
   }
 }
