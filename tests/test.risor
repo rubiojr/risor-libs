@@ -46,3 +46,12 @@ test.is_file('{tmp_file} is a file', tmp_file)
 test.raises('{os.temp_dir()} is not a file', func() {
   test.is_file("", os.temp_dir())
 })
+
+tdir := ""
+test.with_temp_dir(func(temp_dir) {
+  tdir = temp_dir
+  test.is_dir('temp dir {temp_dir} exists', temp_dir)
+})
+test.raises('{tdir} does not exist', func() {
+  test.is_dir("", tdir)
+})
