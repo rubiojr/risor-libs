@@ -1,6 +1,7 @@
 import color
 import exec
 import regexp
+import os
 
 __fatal := false
 __raises := false
@@ -13,14 +14,16 @@ failed_is_fatal := func(b) {
 }
 
 _last_error := nil
+// internal use only
 failed_raises := func() {
   __raises = true
 }
+// internal use only
 failed_does_not_raise := func() {
   __raises = false
 }
 
-raised_error := errors.new("error raised")
+_raised_error := errors.new("error raised")
 
 func exit_if_fatal() {
   if __fatal {
@@ -41,7 +44,7 @@ func print_ok(desc) {
 func print_fail(desc) {
   if __raises {
     if _last_error == nil {
-      error(raised_error)
+      error(_raised_error)
     }
     error(_last_error)
     _last_error = nil
@@ -75,7 +78,7 @@ func equals(desc, o1, o2) {
 // desc: the test description
 // fn: the function that should raise an error
 // err: the error that should be raised
-func raises(desc, fn, err) {
+func raises(desc, fn, err="") {
   happened := false
   try(fn, func(e) {
     happened = true
@@ -144,5 +147,25 @@ func stdout_matches(desc, cmd, reg) {
     print_ok(desc)
   } else {
     print_fail(desc + '(output {out} does not match {reg})')
+  }
+}
+
+func is_dir(desc, path) {
+  ok := try(func() { f := os.stat(path); f.is_dir }, false)
+  if ok {
+    print_ok(desc)
+  } else {
+    //error(raised_error)
+    print_fail(desc)
+  }
+}
+
+func is_file(desc, path) {
+  ok := try(func() { f := os.stat(path); !f.is_dir }, false)
+  if ok {
+    print_ok(desc)
+  } else {
+    print_fail(desc)
+    //error(raised_error)
   }
 }
