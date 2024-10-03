@@ -2,6 +2,7 @@ import test
 import rmm
 
 test.with_temp_dir(func(dir) {
+  dir = dir+"/libs"
   rmm.load("gh:rubiojr/risor-libs/lib/test", {install_path: dir})
   test.is_file("test.risor is downloaded", dir + "/test.risor")
 

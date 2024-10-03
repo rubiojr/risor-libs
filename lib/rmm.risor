@@ -35,6 +35,8 @@ func is_dir(target) {
 //  - install_path: path to install the module ($HOME/.local/share/risor/modules, string)
 func load(path, opts) {
   install_path := opts.get("install_path", __module_dir)
+  os.mkdir_all(install_path)
+
   debug("install path: "+install_path)
 
   branch := opts.get("branch", "main")
