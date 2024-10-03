@@ -11,6 +11,9 @@ test.equals("comparing integers works", 1, 1)
 test.raises("foo == bar should raise", func() {
   test.equals("foo == bar", "foo", "bar")
 })
+test.raises("this test should raise a boom error", func(){
+  error("boom")
+}, errors.new("boom"))
 
 
 test.nothing_raised("no-op should not raise", func() {
