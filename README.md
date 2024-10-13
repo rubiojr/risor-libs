@@ -33,23 +33,22 @@ test.nothing_raised("this test should raise a boom error", func(){
 })
 ```
 
-## RMM (Risor Module Manager)
+## RSX
 
-Risor library to manage third-party libraries.
+[RSX](https://github.com/rubiojr/rsx) utility library.
 
 ```risor
-import rmm
+import 
 
 // Download rsx.risor if not already downloaded and import it.
 // The default installation path is $HOME/.local/share/risor/modules, but you can change it with the install_path option.
 rmm.load(
-  "gh:rubiojr/risor-libs/lib/rsx",
+  "gh:rubiojr/risor-libs/lib/test",
   { force: true, branch: "main" } // force means re-download (overwrite/update)
 )
 
-import rsx
+import test
+
+test.is_true("/tmp is a directory", rsx.is_dir("/tmp"))
+
 ```
-
-## RSX
-
-[RSX](https://github.com/rubiojr/rsx) utility library.
