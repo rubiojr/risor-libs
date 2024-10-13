@@ -16,6 +16,6 @@ echo "*** Testing test.risor..."
 risor tests/test.risor
 echo
 
-echo "*** Testing test.risor..."
-risor tests/rmm.risor
+echo "*** Testing rsx.risor..."
+risor tests/rsx.risor
 echo

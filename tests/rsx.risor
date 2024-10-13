@@ -1,20 +1,20 @@
 import test
-import rmm
+import rsx
 
 test.with_temp_dir(func(dir) {
   dir = dir+"/libs"
-  rmm.load("gh:rubiojr/risor-libs/lib/test", {install_path: dir})
+  rsx.load("gh:rubiojr/risor-libs/lib/test", {install_path: dir})
   test.is_file("test.risor is downloaded", dir + "/test.risor")
 
   test.raises("downloading and invalid module should fail", func() {
-    rmm.load("gh:rubiojr/risor-libs/lib/invalid", {install_path: dir})
+  	rsx.load("gh:rubiojr/risor-libs/lib/invalid", {install_path: dir})
   }, errors.new("failed to fetch the library from gh:rubiojr/risor-libs/lib/invalid, status code 404"))
 
   test.is_true("re-downloading test.risor should work",
-    rmm.load("gh:rubiojr/risor-libs/lib/test", {install_path: dir, force: true})
+    rsx.load("gh:rubiojr/risor-libs/lib/test", {install_path: dir, force: true})
   )
 
   test.is_false("re-downloading test.risor without force should return false",
-    rmm.load("gh:rubiojr/risor-libs/lib/test", {install_path: dir, force: false})
+    rsx.load("gh:rubiojr/risor-libs/lib/test", {install_path: dir, force: false})
   )
 })
