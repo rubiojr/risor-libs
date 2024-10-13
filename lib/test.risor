@@ -138,7 +138,7 @@ func stdout_equals(desc, cmd, expected) {
   try(func() {
     out := exec(bin, args)
     if out.stdout != expected {
-      print_fail(desc + ' (expected: {expected}, got: {out})')
+      errors.new(desc + ' (expected: {expected}, got: {out})')
     } else {
       print_ok(desc)
     }
@@ -166,7 +166,7 @@ func stdout_matches(desc, cmd, reg) {
     if regexp.match(reg, out.stdout) {
       print_ok(desc)
     } else {
-      print_fail(desc + '(output {out} does not match {reg})')
+      errors.new(desc + '(output {out} does not match {reg})')
     }
   }, func(e) {
     print_fail(desc + ' (error: {e})')

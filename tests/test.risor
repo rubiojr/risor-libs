@@ -32,8 +32,8 @@ test.raises("is_true with false should false", func() {
 })
 
 test.stdout_matches("echo foo matches foo", "echo foo", "^foo.*")
-test.raises("is_true with false should false", func() {
-  test.stdout_matches("echo foo does not match bar", "echo foo", "bar")
+test.raises("stdout_matches should error", func() {
+  test.stdout_matches("echo foo", "echo foo", "bar")
 })
 
 test.is_dir('{os.temp_dir()} is a directory', os.temp_dir())
