@@ -24,7 +24,7 @@ pool.wait()
 
 GitHub client library.
 
-```risor
+```Go
 import github as gh
 import os
 
