@@ -58,6 +58,10 @@ func queue(fn) {
 
 // Wait for all jobs to finish
 func wait() {
+  if __sent == 0 {
+    return
+  }
+
   <-__chan
   __workers.each(func(w) { w.wait() })
 }
