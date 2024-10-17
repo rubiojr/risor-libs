@@ -1,6 +1,24 @@
 # Risor Libraries
 
-[Risor](https://risor.io) unofficial libraries.
+[Risor](https://risor.io) unofficial Risor native libraries.
+
+## Worker pool
+
+Simple worker pool to run arbitrary functions.
+
+```Go
+import pool
+// Create a pool with 2 workers
+pool.new(2)
+
+// Queue up some jobs
+for range 10 {
+  pool.queue(func() { time.sleep(1); print("hello") })
+}
+
+// Wait for all jobs to finish
+pool.wait()
+```
 
 ## GitHub
 
@@ -19,7 +37,7 @@ print(me.login)
 
 Risor library to write tests.
 
-```risor
+```Go
 import test
 
 test.is_true("this test will not fail", true)
@@ -37,8 +55,8 @@ test.nothing_raised("this test should raise a boom error", func(){
 
 [RSX](https://github.com/rubiojr/rsx) utility library.
 
-```risor
-import 
+```Go
+import
 
 // Download rsx.risor if not already downloaded and import it.
 // The default installation path is $HOME/.local/share/risor/modules, but you can change it with the install_path option.
