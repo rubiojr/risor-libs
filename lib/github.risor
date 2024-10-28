@@ -71,14 +71,31 @@ func repo_stargazers(nwo) {
   get_with_headers('/repos/{nwo}/stargazers', h).json()
 }
 
+// Get the repos that the authenticated user has starred
 func starred() {
   h := base_headers()
   h['Accept'] = 'application/vnd.github.star+json'
   get_with_headers('/user/starred', h).json()
 }
 
+// Get the repos that a user has starred
 func user_starred(user) {
-  h := base_headers
+  h := base_headers()
   h['Accept'] = 'application/vnd.github.star+json'
   get_with_headers('/users/{user}/starred', h).json()
+}
+
+//
+// Contents API https://docs.github.com/en/rest/repos/contents
+//
+
+// Get the contents of a file in a repository
+func repo_file(nwo, path, opts) {
+  h := base_headers()
+  h['Accept'] = 'application/vnd.github.+json'
+  h['X-GitHub-Api-Version'] = '2022-11-28'
+
+  ref := opts.get("ref") || "main"
+
+  get_with_headers('/repos/{nwo}/contents/{path}?ref={ref}', h).json()["content"] | decode("base64") | string
 }

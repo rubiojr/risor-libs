@@ -33,3 +33,12 @@ test.is_true("foolano19/private stargazers == 1", func() {
   s := github.repo_stargazers("foolano19/private")
   return len(s) == 1
 }() == true )
+
+test.is_true("rubiojr/hello/README.md content is world", func() {
+  s := github.repo_file("rubiojr/hello", "README.md", {ref: "master"})
+  s == "world\n"
+}())
+
+test.raises("repo_file with the wrong branch raise", func() {
+  s := github.repo_file("rubiojr/hello", "README.md", {ref: "foo"})
+}, errors.new('key error: "content"'))
