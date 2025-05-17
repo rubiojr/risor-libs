@@ -2,6 +2,7 @@ import color
 import exec
 import regexp
 import os
+import uuid
 
 __fatal := false
 __raises := false
@@ -191,7 +192,7 @@ func is_dir(desc, path) {
 // desc: the test description
 // path: the path to check
 func is_file(desc, path) {
-  ok := try(func() { f := os.stat(path); !f.is_dir }, false)
+  ok := try(func() { f := os.stat(path); f.mode.is_regular }, false)
   if ok {
     print_ok(desc)
   } else {
