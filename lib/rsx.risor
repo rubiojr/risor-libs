@@ -6,16 +6,14 @@ func shell(command) {
   cmd := exec.command(["bash", "-c", command])
   buf := buffer()
   cmd.stderr = buf
+  cmd.stdout = buf
   cmd.env = os.environ()
   err := false
   try(func() {
     cmd.run()
   }, func() { err = true })
-  if err {
-    return string(buf)
-  }
 
-  return cmd.stdout
+  return string(buf)
 }
 
 func log(msg) {
