@@ -13,6 +13,10 @@ func shell(command) {
     cmd.run()
   }, func() { err = true })
 
+  if err {
+    error('error {string(buf)}')
+  }
+
   return string(buf)
 }
 
