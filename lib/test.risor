@@ -157,13 +157,13 @@ func stdout_equals(desc, cmd, expected) {
 func stdout_matches(desc, cmd, reg) {
   tokens := cmd.split(" ")
   bin := tokens[0]
-  args := []
+  args := [bin]
   if len(tokens) > 1 {
     args.extend(tokens[1:])
   }
 
   try(func() {
-    out := exec(bin, args)
+    out := exec(args)
     if regexp.match(reg, out.stdout) {
       print_ok(desc)
     } else {
