@@ -3,7 +3,19 @@ import regexp
 import exec
 
 func shell(command) {
-  exec("bash", ["-c", command])
+  cmd := exec.command(["bash", "-c", command])
+  buf := buffer()
+  cmd.stderr = buf
+  cmd.env = os.environ()
+  err := false
+  try(func() {
+    cmd.run()
+  }, func() { err = true })
+  if err {
+    return string(buf)
+  }
+
+  return cmd.stdout
 }
 
 func log(msg) {
