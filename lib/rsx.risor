@@ -19,6 +19,7 @@ func shell(command) {
 
   return string(buf)
 }
+func sh(command) { return shell(command) }
 
 func log(msg) {
   print(msg)
