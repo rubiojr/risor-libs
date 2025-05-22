@@ -2,7 +2,7 @@
 
 ## exit_if_fatal
 
-Exit the program if __fatal is true 
+Exit the program if __fatal is true
 
 ### Returns
 
@@ -17,7 +17,7 @@ exit_if_fatal()
 
 ## print_ok
 
-Print a message in green. 
+Print a message in green.
 
 ### Parameters
 
@@ -36,7 +36,7 @@ print_ok(desc)
 
 ## print_fail
 
-Print a message in red. 
+Print a message in red.
 
 ### Parameters
 
@@ -55,7 +55,7 @@ print_fail(desc)
 
 ## is_true
 
-Assert that a condition is true. 
+Assert that a condition is true.
 
 ### Parameters
 
@@ -75,7 +75,7 @@ is_true(desc, cond)
 
 ## is_false
 
-Assert that a condition is false. 
+Assert that a condition is false.
 
 ### Parameters
 
@@ -95,7 +95,7 @@ is_false(desc, cond)
 
 ## equals
 
-Assert that two values are equal. 
+Assert that two values are equal.
 
 ### Parameters
 
@@ -116,7 +116,7 @@ equals(desc, o1, o2)
 
 ## raises
 
-Assert a condition raises an error. 
+Assert a condition raises an error.
 
 ### Parameters
 
@@ -137,7 +137,7 @@ raises(desc, fn, err="")
 
 ## nothing_raised
 
-Assert a condition does not raise an error. 
+Assert a condition does not raise an error.
 
 ### Parameters
 
@@ -157,7 +157,7 @@ nothing_raised(desc, fn)
 
 ## stdout_equals
 
-Assert that command output equals an expected string. 
+Assert that command output equals an expected string.
 
 ### Parameters
 
@@ -178,7 +178,7 @@ stdout_equals(desc, cmd, expected)
 
 ## stderr_matches
 
-Assert that command stderr output matches a regular expression. 
+Assert that command stderr output matches a regular expression.
 
 ### Parameters
 
@@ -199,7 +199,7 @@ stderr_matches(desc, cmd, reg)
 
 ## stdout_matches
 
-Assert that command output matches a regular expression. 
+Assert that command output matches a regular expression.
 
 ### Parameters
 
@@ -220,7 +220,7 @@ stdout_matches(desc, cmd, reg)
 
 ## is_dir
 
-Assert that a path is a directory. 
+Assert that a path is a directory.
 
 ### Parameters
 
@@ -240,7 +240,7 @@ is_dir(desc, path)
 
 ## is_file
 
-Assert that a path is a file. 
+Assert that a path is a file.
 
 ### Parameters
 
@@ -260,7 +260,7 @@ is_file(desc, path)
 
 ## with_temp_dir
 
-Create a temporary directory and run a function with it. The directory created is automatically removed after the function is run. 
+Create a temporary directory and run a function with it. The directory created is automatically removed after the function is run.
 
 ### Parameters
 

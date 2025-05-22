@@ -2,7 +2,7 @@
 
 ## log
 
-Logs a message to standard output 
+Logs a message to standard output
 
 ### Parameters
 
@@ -21,7 +21,7 @@ log(msg)
 
 ## debug
 
-Logs a debug message when RSX_DEBUG environment variable is set to "1" 
+Logs a debug message when RSX_DEBUG environment variable is set to "1"
 
 ### Parameters
 
@@ -40,7 +40,7 @@ debug(msg)
 
 ## shell
 
-Executes a shell command and returns its output 
+Executes a shell command and returns its output
 
 ### Parameters
 
@@ -59,7 +59,7 @@ shell(command)
 
 ## sh
 
-Alias for shell function 
+Alias for shell function
 
 ### Parameters
 
@@ -78,7 +78,7 @@ sh(command)
 
 ## env
 
-Gets an environment variable with a default value 
+Gets an environment variable with a default value
 
 ### Parameters
 
@@ -98,7 +98,7 @@ env(key, def)
 
 ## is_file
 
-Checks if a path is a file 
+Checks if a path is a file
 
 ### Parameters
 
@@ -117,7 +117,7 @@ is_file(target)
 
 ## is_dir
 
-Checks if a path is a directory 
+Checks if a path is a directory
 
 ### Parameters
 
@@ -136,7 +136,7 @@ is_dir(target)
 
 ## lines
 
-Splits content into lines, handling both strings and files 
+Splits content into lines, handling both strings and files
 
 ### Parameters
 
@@ -155,7 +155,7 @@ lines(content)
 
 ## replace_in
 
-Replace occurrences of a regular expression in a file or string 
+Replace occurrences of a regular expression in a file or string
 
 ### Parameters
 
@@ -176,7 +176,7 @@ replace_in(target, rgxp, repl)
 
 ## grep
 
-Find lines in a file or string that match a regular expression 
+Find lines in a file or string that match a regular expression
 
 ### Parameters
 
