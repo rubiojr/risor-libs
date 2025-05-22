@@ -10,22 +10,35 @@ __raises := false
 _red := color.color(color.fg_red, color.bold)
 _green := color.color(color.fg_green, color.bold)
 
+// Sets whether test failures are fatal (exit the program)
+//
+// Parameters:
+// - b: Boolean indicating if failures should be fatal
+//
+// @global.function
 failed_is_fatal := func(b) {
   __fatal = b
 }
 
 _last_error := nil
-// internal use only, to self-test this library
+// Internal use only, to self-test this library
+//
+// @global.function
 failed_raises := func() {
   __raises = true
 }
-// internal use only, to self-test this library
+// Internal use only, to self-test this library
+//
+// @global.function
 failed_does_not_raise := func() {
   __raises = false
 }
 
 _raised_error := errors.new("error raised")
 
+// Exit the program if __fatal is true
+//
+// @global.function
 func exit_if_fatal() {
   if __fatal {
     os.exit(1)
@@ -34,7 +47,10 @@ func exit_if_fatal() {
 
 // Print a message in green.
 //
-// desc: the test description
+// Parameters:
+// - desc: The test description
+//
+// @global.function
 func print_ok(desc) {
   if desc != "" {
     print(_green.sprintf('%s:', "  ok"), desc)
@@ -43,7 +59,10 @@ func print_ok(desc) {
 
 // Print a message in red.
 //
-// desc: the test description
+// Parameters:
+// - desc: The test description
+//
+// @global.function
 func print_fail(desc) {
   if __raises {
     error(desc)
@@ -54,8 +73,11 @@ func print_fail(desc) {
 
 // Assert that a condition is true.
 //
-// desc: the test description
-// cond: the condition to check (boolean)
+// Parameters:
+// - desc: The test description
+// - cond: The condition to check (boolean)
+//
+// @global.function
 func is_true(desc, cond){
   if !cond {
     print_fail(desc)
@@ -66,8 +88,11 @@ func is_true(desc, cond){
 
 // Assert that a condition is false.
 //
-// desc: the test description
-// cond: the condition to check (boolean)
+// Parameters:
+// - desc: The test description
+// - cond: The condition to check (boolean)
+//
+// @global.function
 func is_false(desc, cond){
   if cond {
     print_fail(desc)
@@ -76,6 +101,14 @@ func is_false(desc, cond){
   }
 }
 
+// Assert that two values are equal.
+//
+// Parameters:
+// - desc: The test description
+// - o1: First value to compare
+// - o2: Second value to compare
+//
+// @global.function
 func equals(desc, o1, o2) {
   if o1 == o2 {
     print_ok(desc)
@@ -84,11 +117,14 @@ func equals(desc, o1, o2) {
   }
 }
 
-// Assert a condition rasies an error.
+// Assert a condition raises an error.
 //
-// desc: the test description
-// fn: the function that should raise an error
-// err: the error that should be raised
+// Parameters:
+// - desc: The test description
+// - fn: The function that should raise an error
+// - err: The error that should be raised (default: any error)
+//
+// @global.function
 func raises(desc, fn, err="") {
   processed := false
   o := try(fn, func(e) {
@@ -109,8 +145,11 @@ func raises(desc, fn, err="") {
 
 // Assert a condition does not raise an error.
 //
-// desc: the test description
-// fn: the function that should not raise an error
+// Parameters:
+// - desc: The test description
+// - fn: The function that should not raise an error
+//
+// @global.function
 func nothing_raised(desc, fn) {
   happened := nil
   try(fn, func(e) {
@@ -123,11 +162,14 @@ func nothing_raised(desc, fn) {
   }
 }
 
-// Assert that cmd output equals a expected string.
+// Assert that command output equals an expected string.
 //
-// desc: the test description
-// cmd: the command to run
-// expected: the expected output
+// Parameters:
+// - desc: The test description
+// - cmd: The command to run
+// - expected: The expected output
+//
+// @global.function
 func stdout_equals(desc, cmd, expected) {
   tokens := cmd.split(" ")
   bin := tokens[0]
@@ -149,11 +191,14 @@ func stdout_equals(desc, cmd, expected) {
 
 }
 
-// Assert that cmd stderr output matches a regular expression.
+// Assert that command stderr output matches a regular expression.
 //
-// desc: the test description
-// cmd: the command to run
-// reg: the regular expression to match
+// Parameters:
+// - desc: The test description
+// - cmd: The command to run
+// - reg: The regular expression to match
+//
+// @global.function
 func stderr_matches(desc, cmd, reg) {
   tokens := cmd.split(" ")
   bin := tokens[0]
@@ -174,11 +219,14 @@ func stderr_matches(desc, cmd, reg) {
   })
 }
 
-// Assert that cmd output matches a regular expression.
+// Assert that command output matches a regular expression.
 //
-// desc: the test description
-// cmd: the command to run
-// reg: the regular expression to match
+// Parameters:
+// - desc: The test description
+// - cmd: The command to run
+// - reg: The regular expression to match
+//
+// @global.function
 func stdout_matches(desc, cmd, reg) {
   tokens := cmd.split(" ")
   bin := tokens[0]
@@ -201,8 +249,11 @@ func stdout_matches(desc, cmd, reg) {
 
 // Assert that a path is a directory.
 //
-// desc: the test description
-// path: the path to check
+// Parameters:
+// - desc: The test description
+// - path: The path to check
+//
+// @global.function
 func is_dir(desc, path) {
   ok := try(func() { f := os.stat(path); f.is_dir }, false)
   if ok {
@@ -214,8 +265,11 @@ func is_dir(desc, path) {
 
 // Assert that a path is a file.
 //
-// desc: the test description
-// path: the path to check
+// Parameters:
+// - desc: The test description
+// - path: The path to check
+//
+// @global.function
 func is_file(desc, path) {
   ok := try(func() { f := os.stat(path); f.mode.is_regular }, false)
   if ok {
@@ -229,7 +283,12 @@ func is_file(desc, path) {
 // Create a temporary directory and run a function with it.
 // The directory created is automatically removed after the function is run.
 //
-// fn: the function to run
+// Parameters:
+// - fn: The function to run with temporary directory path as argument
+//
+// Returns: The result of the function execution
+//
+// @global.function
 func with_temp_dir(fn) {
   tmp_dir := filepath.join(os.temp_dir(), uuid())
   os.mkdir_all(tmp_dir)
