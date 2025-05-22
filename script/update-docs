@@ -1,0 +1,5 @@
+#!/bin/sh
+for f in lib/*risor; do
+  file=$(basename $f)
+  risor-docgen -i "$f" -o "docs/$(echo "${file%.*}").md"
+done
