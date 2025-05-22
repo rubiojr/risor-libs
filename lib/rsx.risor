@@ -2,16 +2,36 @@ import os
 import regexp
 import exec
 
+// Logs a message to standard output
+//
+// Parameters:
+// - msg: The message to log
+//
+// @global.function
 func log(msg) {
   print(msg)
 }
 
+// Logs a debug message when RSX_DEBUG environment variable is set to "1"
+//
+// Parameters:
+// - msg: The debug message to log
+//
+// @global.function
 func debug(msg) {
   if os.getenv("RSX_DEBUG") == "1" {
     print('DEBUG: {msg}')
   }
 }
 
+// Executes a shell command and returns its output
+//
+// Parameters:
+// - command: The shell command to execute
+//
+// Returns: The combined stdout and stderr output as a string
+//
+// @global.function
 func shell(command) {
   cmd := exec.command(["bash", "-c", command])
   buf := buffer()
@@ -30,8 +50,25 @@ func shell(command) {
 
   return string(buf)
 }
+// Alias for shell function
+//
+// Parameters:
+// - command: The shell command to execute
+//
+// Returns: The combined stdout and stderr output as a string
+//
+// @global.function
 func sh(command) { return shell(command) }
 
+// Gets an environment variable with a default value
+//
+// Parameters:
+// - key: The environment variable name
+// - def: The default value if the variable is not set
+//
+// Returns: The value of the environment variable or the default value
+//
+// @global.function
 func env(key, def) {
   v := os.getenv(key)
   if v == "" {
@@ -40,6 +77,14 @@ func env(key, def) {
   return v
 }
 
+// Checks if a path is a file
+//
+// Parameters:
+// - target: The path to check
+//
+// Returns: Boolean indicating whether the target is a file
+//
+// @global.function
 func is_file(target) {
   if strings.contains(target, "\n") {
     return false
@@ -48,10 +93,26 @@ func is_file(target) {
   try(func() { f := os.stat(target); !f.is_dir }, false)
 }
 
+// Checks if a path is a directory
+//
+// Parameters:
+// - target: The path to check
+//
+// Returns: Boolean indicating whether the target is a directory
+//
+// @global.function
 func is_dir(target) {
   try(func() { f := os.stat(target); f.is_dir }, false)
 }
 
+// Splits content into lines, handling both strings and files
+//
+// Parameters:
+// - content: A string or file path to split into lines
+//
+// Returns: An array of lines
+//
+// @global.function
 func lines(content) {
   if len(content.split("\n")) > 1 {
     return content.split("\n")
@@ -63,7 +124,16 @@ func lines(content) {
   return content.split("\n")
 }
 
-// Replace an occurrence of a regular expression in a file or string.
+// Replace occurrences of a regular expression in a file or string
+//
+// Parameters:
+// - target: The file path or string to process
+// - rgxp: The regular expression pattern to match
+// - repl: The replacement string
+//
+// Returns: The modified content as a string
+//
+// @global.function
 func replace_in(target, rgxp, repl) {
   l := []
   r := regexp.compile(rgxp)
@@ -82,6 +152,15 @@ func replace_in(target, rgxp, repl) {
 }
 
 
+// Find lines in a file or string that match a regular expression
+//
+// Parameters:
+// - target: The file path or string to search
+// - regex: The regular expression pattern to match
+//
+// Returns: An array of matching lines
+//
+// @global.function
 func grep(target, regex) {
   l := []
   lines(target).each(func(line){
@@ -93,13 +172,19 @@ func grep(target, regex) {
   return l
 }
 
-// Load a module from a github repository
+// Load a module from a GitHub repository
 //
-// opts: Options available:
-//  - force: force module download if present (false, bool)
-//  - branch: repository branch to use (main, string)
-//  - install_path: path to install the module ($HOME/.local/share/risor/modules, string)
-__module_dir := filepath.join(getenv("HOME"), ".local/share/risor/modules")
+// Parameters:
+// - path: The GitHub repository path in format "gh:owner/repo/path/to/file.risor"
+// - opts: Options for loading the module
+//   - force: Force module download if present (default: false)
+//   - branch: Repository branch to use (default: "main")
+//   - install_path: Path to install the module (default: $HOME/.local/share/risor/modules)
+//
+// Returns: Boolean indicating whether the module was downloaded or already existed
+//
+// @global.function
+__module_dir := filepath.join(os.getenv("HOME"), ".local/share/risor/modules")
 func load(path, opts) {
   install_path := opts.get("install_path", __module_dir)
   os.mkdir_all(install_path)
